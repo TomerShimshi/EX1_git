@@ -195,7 +195,9 @@ void SReadFile(char** path, char** WordArr, int length)
 	free(res);
 
 }
-
+/*
+this func recives two pointers to 
+*/
 void EncryptMessage(char** key, char** message, int length, char** encryptedMessage)
 {
 	int i = 0;
