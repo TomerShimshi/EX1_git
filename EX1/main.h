@@ -13,3 +13,4 @@ static const int ERR_CODE_TOO_MANY_ARGUMENTS = -2;
 void split_str(char* str, char* FileName, char* OffSet, char* KeyFileName);
 char* getline(void);
 void SReadFile(char* path, char* WordArr, int length);
+void EncryptMessage(char** key, char** message, int length, char** encryptedMessage);

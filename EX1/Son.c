@@ -35,10 +35,13 @@ int main()
 	const char INPUT_LENGTH = 17;
 	char* FileName = NULL;
 	int * OffSet = NULL;
+	int location = 1;
 	char* KeyFileName = NULL;
 	char * pch;
 	char** res = NULL;
 	char* Message = NULL;
+	char* Key = NULL;
+	char* EncryptedMessage = NULL;
 
 
 	// restore this later please
@@ -53,6 +56,10 @@ int main()
 	 
 	SReadFile(&FileName, &Message, INPUT_LENGTH);
 	printf("Message = %s \n", Message);
+	SReadFile(&KeyFileName, &Key, INPUT_LENGTH);
+	printf("Key = %s \n", Key);
+	location = (int)OffSet / 16;
+	EncryptMessage(&Key, &Message, INPUT_LENGTH, &EncryptedMessage);
 	//char* key = SReadFile(KeyFileName, 0, INPUT_LENGTH);
 	//char* encrypted = NULL;
 	//EncryptMessage(key, message, INPUT_LENGTH, &encrypted);
@@ -179,7 +186,7 @@ void SReadFile(char** path, char** WordArr, int length)
 
 		//strcpy(res[i - 1], word);
 		res[i - 1] =word;
-		//strncpy(res[i - 1], word, length);
+		
 	}
 	fclose( fp);
 	
@@ -187,4 +194,27 @@ void SReadFile(char** path, char** WordArr, int length)
 	//free(word);
 	free(res);
 
+}
+
+void EncryptMessage(char** key, char** message, int length, char** encryptedMessage)
+{
+	int i = 0;
+	char *Encrypt= NULL;
+	char* Ptrkey = *key;
+	char* PtrMessge = *message;
+	Encrypt =  malloc(sizeof(char) * length);
+	/*if (NULL == strcpy(*Encrypt, *message))
+	{
+		printf("failed to copy string \n");
+	}*/
+	
+	
+	for (i = 0; i < length; ++i) {
+		printf("message[i]= %c\n", *PtrMessge);
+		Encrypt[i] = *PtrMessge ^ *Ptrkey;
+		PtrMessge++;
+		Ptrkey++;
+	}
+	printf("Encrypt= %s\n", Encrypt);
+	*encryptedMessage = Encrypt;
 }
