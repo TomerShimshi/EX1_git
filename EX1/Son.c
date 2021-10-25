@@ -142,9 +142,9 @@ void split_str(char* str, char** FileName, int** OffSet, char** KeyFileName)
 
 	/* free the memory allocated */
 	*FileName = res[0];
-	*OffSet = (int) res[1] ;
+	*OffSet = atoi( res[1]) ;
 	*KeyFileName = res[2];
-	 //free(res);
+	 free(res);
 	
 }
 
@@ -185,6 +185,6 @@ void SReadFile(char** path, char** WordArr, int length)
 	
 	*WordArr = *res;
 	//free(word);
-	//free(res);
+	free(res);
 
 }
