@@ -14,3 +14,4 @@ void split_str(char* str, char* FileName, char* OffSet, char* KeyFileName);
 char* getline(void);
 void SReadFile(char* path, char* WordArr, int length);
 void EncryptMessage(char** key, char** message, int length, char** encryptedMessage);
+void writeToFile(char pathToFile[], char** stringToAppend);

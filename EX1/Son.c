@@ -60,6 +60,8 @@ int main()
 	printf("Key = %s \n", Key);
 	location = (int)OffSet / 16;
 	EncryptMessage(&Key, &Message, INPUT_LENGTH, &EncryptedMessage);
+	printf("EncryptedMessage = %s \n", EncryptedMessage);
+	writeToFile(TARGET_FILE, &EncryptedMessage);
 	//char* key = SReadFile(KeyFileName, 0, INPUT_LENGTH);
 	//char* encrypted = NULL;
 	//EncryptMessage(key, message, INPUT_LENGTH, &encrypted);
@@ -214,9 +216,28 @@ void EncryptMessage(char** key, char** message, int length, char** encryptedMess
 	for (i = 0; i < length; ++i) {
 		printf("message[i]= %c\n", *PtrMessge);
 		Encrypt[i] = *PtrMessge ^ *Ptrkey;
+		
 		PtrMessge++;
 		Ptrkey++;
 	}
 	printf("Encrypt= %s\n", Encrypt);
+	
 	*encryptedMessage = Encrypt;
+}
+
+//This function prints current string into Computation.txt.
+void writeToFile(char pathToFile[], char** stringToAppend)
+{
+	FILE* pFile;
+	pFile = fopen(pathToFile, "a");
+	if (pFile == NULL) {
+		perror("Error opening file.");
+	}
+	else
+	{
+		char* toAdd;
+		fprintf(pFile, *stringToAppend);
+		fprintf(pFile, "\n");
+	}
+	fclose(pFile);
 }
