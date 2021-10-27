@@ -7,8 +7,10 @@
 
 
 
-static const int ERR_CODE_NOT_ENOUGH_ARGUMENTS = -1;
+static const int ERR_CODE_NOT_ENOUGH_ARGUMENTS = -3;
 static const int ERR_CODE_TOO_MANY_ARGUMENTS = -2;
+static const int STATUS_CODE_FAILURE = -1;
+
 
 void split_str(char* str, char* FileName, char* OffSet, char* KeyFileName);
 char* getline(void);

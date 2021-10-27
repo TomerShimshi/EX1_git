@@ -166,18 +166,27 @@ void split_str(char* str, char** FileName, int** OffSet, char** KeyFileName)
 void SReadFile(char** path, char** WordArr, int length)
 {
 	int i = 0;
+	errno_t retval;
+	FILE* fp = NULL;
 	char** res =  malloc(sizeof(char) * length);
 	// OPENS THE FILE
-	FILE* fp = fopen(*path, "r");
-
+	//FILE* fp = fopen(*path, "r");
+	retval = fopen_s(&fp, *path, "r");
+	if (0 != retval)
+	{
+		printf("Failed to open file.\n");
+		return STATUS_CODE_FAILURE;
+	}
 	
 	char* word = malloc(sizeof(char) * length);
 	// CHECKS IF THE FILE EXISTS, IF IT DOESN'T IT WILL PRINT OUT A STATEMENT SAYING SO     
+	/*
 	if (fp == NULL)
 	{
 		printf("file not found");
 		return 1;
 	}
+	*/
 	while (fgets(word, length, fp) != NULL)
 	{
 		printf("%s \n", word);
