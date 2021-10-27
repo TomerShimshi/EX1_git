@@ -235,9 +235,37 @@ void EncryptMessage(char** key, char** message, int length, char** encryptedMess
 }
 
 //This function prints current string into Computation.txt.
-void writeToFile(char pathToFile[], char** stringToAppend)
+int writeToFile(char pathToFile[], char** stringToAppend)
 {
 	FILE* pFile;
+	errno_t retval;
+	retval = fopen_s(&pFile, pathToFile, "a");
+
+	if (0 != retval)
+	{
+		printf("Failed to open file.\n");
+		return STATUS_CODE_FAILURE;
+	}
+
+	// Write lines
+	retval = fputs(*stringToAppend, pFile);
+	if (0 > retval)
+	{
+		printf("Failed to write to file.\n");
+		// Don't return. Try and close the file first.
+	}
+
+	// Close file
+	retval = fclose(pFile);
+	if (0 != retval)
+	{
+		printf("Failed to close file.\n");
+		return STATUS_CODE_FAILURE;
+	}
+
+	return STATUS_CODE_SUCCESS;
+}
+	/*
 	pFile = fopen(pathToFile, "a");
 	if (pFile == NULL) {
 		perror("Error opening file.");
@@ -249,4 +277,5 @@ void writeToFile(char pathToFile[], char** stringToAppend)
 		fprintf(pFile, "\n");
 	}
 	fclose(pFile);
-}
+	
+}*/
