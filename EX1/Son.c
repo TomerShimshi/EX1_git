@@ -10,7 +10,7 @@
 */
 
 /*
- 1. get user input (input file, message offset, key file) V
+ 1. get user input (input file, message off set, key file) V
  2. parse input V
  3. open+read input + key files
  4. create encrypted message
