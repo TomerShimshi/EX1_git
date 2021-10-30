@@ -31,7 +31,8 @@
 
 int main()
 {
-	const char TARGET_FILE[] =   "C://projects//HW/EX1//EX1//Encrypted_message.txt";//"Encrypted_message.txt";//
+	const wchar_t TARGET_FILE[] =   L"C://projects//HW/EX1//EX1//Encrypted_message.txt";//"Encrypted_message.txt";//
+	//const LPCTSTR TARGET_FILE = &TARGET_FILE_Name;
 	const char INPUT_LENGTH = 17;
 	char* FileName = NULL;
 	int * OffSet = NULL;
@@ -64,6 +65,37 @@ int main()
 	EncryptMessage(&Key, &Message, INPUT_LENGTH, &EncryptedMessage);
 	printf("EncryptedMessage = %s \n", EncryptedMessage);
 	WinWriteToFile(TARGET_FILE, &EncryptedMessage, INPUT_LENGTH);
+
+	/*
+	HANDLE hFile = CreateFile(
+		L"C://projects//HW/EX1//EX1//Encrypted_message.txt",     // Filename
+		GENERIC_WRITE,          // Desired access
+		FILE_SHARE_READ,        // Share mode
+		NULL,                   // Security attributes
+		CREATE_NEW,             // Creates a new file, only if it doesn't already exist
+		FILE_ATTRIBUTE_NORMAL,  // Flags and attributes
+		NULL);                  // Template file handle
+
+	if (hFile == INVALID_HANDLE_VALUE)
+	{
+		// Failed to create file meaning mybe thers a file thats alredy exsits try to open exsiting
+		hFile = CreateFile(
+			L"C://projects//HW/EX1//EX1//Encrypted_message.txt",     // Filename
+			GENERIC_WRITE,          // Desired access
+			FILE_SHARE_READ,        // Share mode
+			NULL,                   // Security attributes
+			OPEN_EXISTING,            // Opens a file or device, only if it exists.
+			FILE_ATTRIBUTE_NORMAL,  // Flags and attributes
+			NULL);                  // Template file handle
+		if (hFile == INVALID_HANDLE_VALUE)
+		{
+			// // Failed to create file and to open exsiting
+			return 2;
+		}
+
+	}
+	*/
+	
 	//writeToFile(TARGET_FILE, &EncryptedMessage);
 	//char* key = SReadFile(KeyFileName, 0, INPUT_LENGTH);
 	//char* encrypted = NULL;
@@ -268,6 +300,8 @@ int writeToFile(char pathToFile[], char** stringToAppend)
 
 	return STATUS_CODE_SUCCESS;
 }
+
+// shoof
 	/*
 	pFile = fopen(pathToFile, "a");
 	if (pFile == NULL) {
@@ -287,11 +321,11 @@ int writeToFile(char pathToFile[], char** stringToAppend)
 * based on the example from:
 * https://riptutorial.com/winapi/example/5736/create-a-file-and-write-to-it
 */
-int WinWriteToFile(char pathToFile[], char** stringToAppend,int MessegeLen)
+int WinWriteToFile(wchar_t  pathToFile[] , char** stringToAppend,int MessegeLen)
 {
 	// Open a handle to the file
 	HANDLE hFile = CreateFile(
-		&pathToFile,     // Filename
+		(LPCTSTR)(pathToFile),     // Filename
 		GENERIC_WRITE,          // Desired access
 		FILE_SHARE_READ,        // Share mode
 		NULL,                   // Security attributes
@@ -303,7 +337,7 @@ int WinWriteToFile(char pathToFile[], char** stringToAppend,int MessegeLen)
 	{
 		// Failed to create file meaning mybe thers a file thats alredy exsits try to open exsiting
 		hFile = CreateFile(
-			(LPCSTR)pathToFile,     // Filename
+			(LPCTSTR)(pathToFile),     // Filename
 			GENERIC_WRITE,          // Desired access
 			FILE_SHARE_READ,        // Share mode
 			NULL,                   // Security attributes
