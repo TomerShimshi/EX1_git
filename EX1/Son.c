@@ -326,7 +326,7 @@ int WinWriteToFile(wchar_t  pathToFile[] , char** stringToAppend,int MessegeLen)
 	// Open a handle to the file
 	HANDLE hFile = CreateFile(
 		(LPCTSTR)(pathToFile),     // Filename
-		GENERIC_WRITE,          // Desired access
+		FILE_APPEND_DATA,          // Desired access
 		FILE_SHARE_READ,        // Share mode
 		NULL,                   // Security attributes
 		CREATE_NEW,             // Creates a new file, only if it doesn't already exist
@@ -338,7 +338,7 @@ int WinWriteToFile(wchar_t  pathToFile[] , char** stringToAppend,int MessegeLen)
 		// Failed to create file meaning mybe thers a file thats alredy exsits try to open exsiting
 		hFile = CreateFile(
 			(LPCTSTR)(pathToFile),     // Filename
-			GENERIC_WRITE,          // Desired access
+			FILE_APPEND_DATA,          // Desired access
 			FILE_SHARE_READ,        // Share mode
 			NULL,                   // Security attributes
 			OPEN_EXISTING,            // Opens a file or device, only if it exists.
