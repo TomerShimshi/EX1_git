@@ -31,7 +31,7 @@
 
 int main()
 {
-	const char TARGET_FILE[] = "Encrypted_message.txt";
+	const char TARGET_FILE[] =   "C://projects//HW/EX1//EX1//Encrypted_message.txt";//"Encrypted_message.txt";//
 	const char INPUT_LENGTH = 17;
 	char* FileName = NULL;
 	int * OffSet = NULL;
@@ -42,6 +42,8 @@ int main()
 	char* Message = NULL;
 	char* Key = NULL;
 	char* EncryptedMessage = NULL;
+
+
 
 
 	// restore this later please
@@ -61,7 +63,8 @@ int main()
 	location = (int)OffSet / 16;
 	EncryptMessage(&Key, &Message, INPUT_LENGTH, &EncryptedMessage);
 	printf("EncryptedMessage = %s \n", EncryptedMessage);
-	writeToFile(TARGET_FILE, &EncryptedMessage);
+	WinWriteToFile(TARGET_FILE, &EncryptedMessage, INPUT_LENGTH);
+	//writeToFile(TARGET_FILE, &EncryptedMessage);
 	//char* key = SReadFile(KeyFileName, 0, INPUT_LENGTH);
 	//char* encrypted = NULL;
 	//EncryptMessage(key, message, INPUT_LENGTH, &encrypted);
@@ -279,3 +282,52 @@ int writeToFile(char pathToFile[], char** stringToAppend)
 	fclose(pFile);
 	
 }*/
+/*
+* write to a file using the win API lib
+* based on the example from:
+* https://riptutorial.com/winapi/example/5736/create-a-file-and-write-to-it
+*/
+int WinWriteToFile(char pathToFile[], char** stringToAppend,int MessegeLen)
+{
+	// Open a handle to the file
+	HANDLE hFile = CreateFile(
+		&pathToFile,     // Filename
+		GENERIC_WRITE,          // Desired access
+		FILE_SHARE_READ,        // Share mode
+		NULL,                   // Security attributes
+		CREATE_NEW,             // Creates a new file, only if it doesn't already exist
+		FILE_ATTRIBUTE_NORMAL,  // Flags and attributes
+		NULL);                  // Template file handle
+
+	if (hFile == INVALID_HANDLE_VALUE)
+	{
+		// Failed to create file meaning mybe thers a file thats alredy exsits try to open exsiting
+		hFile = CreateFile(
+			(LPCSTR)pathToFile,     // Filename
+			GENERIC_WRITE,          // Desired access
+			FILE_SHARE_READ,        // Share mode
+			NULL,                   // Security attributes
+			OPEN_EXISTING,            // Opens a file or device, only if it exists.
+			FILE_ATTRIBUTE_NORMAL,  // Flags and attributes
+			NULL);                  // Template file handle
+		if (hFile == INVALID_HANDLE_VALUE)
+		{
+			// // Failed to create file and to open exsiting
+			return 2;
+		}
+		
+	}
+
+	// Write data to the file
+	//std::string strText = "Hello World!"; // For C use LPSTR (char*) or LPWSTR (wchar_t*)
+	DWORD bytesWritten;
+	WriteFile(
+		hFile,            // Handle to the file
+		(DWORD )*stringToAppend,  // Buffer to write
+		MessegeLen,   // Buffer size
+		stringToAppend,    // Bytes written
+		NULL);         // Overlapped
+
+	 // Close the handle once we don't need it.
+	CloseHandle(hFile);
+}

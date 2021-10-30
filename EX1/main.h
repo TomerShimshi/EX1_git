@@ -18,3 +18,4 @@ char* getline(void);
 void SReadFile(char* path, char* WordArr, int length);
 void EncryptMessage(char** key, char** message, int length, char** encryptedMessage);
 int writeToFile(char pathToFile[], char** stringToAppend);
+int WinWriteToFile(char pathToFile[], char** stringToAppend,  int MessegeLen);
